@@ -113,10 +113,10 @@
     > **NOTE**: You need to use your forks address in the substitutions below
 
     ~~~sh
-    sed -i "s|<reversewords_git_repo>|https://github.com/mvazquezc/reverse-words|" build-pipeline.yaml
-    sed -i "s|<reversewords_quay_repo>|quay.io/mavazque/tekton-reversewords|" build-pipeline.yaml
-    sed -i "s|<golang_package>|github.com/mvazquezc/reverse-words|" build-pipeline.yaml
-    sed -i "s|<imageBuilder_sourcerepo>|mvazquezc/reverse-words-cicd|" build-pipeline.yaml
+    sed -i "s|<reversewords_git_repo>|https://github.com/tgubeli/reverse-words|" build-pipeline.yaml
+    sed -i "s|<reversewords_quay_repo>|quay.io/tgubeli/tekton-reversewords|" build-pipeline.yaml
+    sed -i "s|<golang_package>|github.com/tgubeli/reverse-words|" build-pipeline.yaml
+    sed -i "s|<imageBuilder_sourcerepo>|tgubeli/reverse-words-cicd|" build-pipeline.yaml
     ~~~
 13. Create the Build Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
 
