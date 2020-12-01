@@ -160,6 +160,7 @@
     ~~~
 20. Create the TriggerTemplate and Event Listener to run the Pipeline when new commits hit the main branch of our app repository
 
+    Lunix:
     ~~~sh
     WEBHOOK_SECRET="v3r1s3cur3"
     oc -n reversewords-ci create secret generic webhook-secret --from-literal=secret=${WEBHOOK_SECRET}
@@ -168,6 +169,17 @@
     sed -i "s/- name: pipeline-binding/- name: github-triggerbinding/" webhook.yaml
     oc -n reversewords-ci create -f webhook.yaml
     ~~~
+    
+    Mac OS:
+    ~~~sh
+    WEBHOOK_SECRET="v3r1s3cur3"
+    oc -n reversewords-ci create secret generic webhook-secret --from-literal=secret=${WEBHOOK_SECRET}
+    sed -i '.bak' -e 's/<git-triggerbinding>/github-triggerbinding/' webhook.yaml
+    sed -i '.bak' -e '/ref: github-triggerbinding/d' webhook.yaml
+    sed -i '.bak' -e 's/- name: pipeline-binding/- name: github-triggerbinding/' webhook.yaml
+    oc -n reversewords-ci create -f webhook.yaml
+    ~~~
+    
 21. We need to provide an ingress point for our EventListener, we want it to be TLS, we will create a edge route
 
     ~~~sh
