@@ -30,13 +30,24 @@
     git stash
     # Update staging ingress  
     git checkout stage
-    sed -i "s/host: .*/host: reversewords-dev.${CLUSTER_WILDCARD}/" ingress.yaml
+    Linux
+     sed -i "s/host: .*/host: reversewords-dev.${CLUSTER_WILDCARD}/" ingress.yaml
+     
+    Mac OS
+     sed -i '.bak' -e 's/host: .*/host: reversewords-dev.${CLUSTER_WILDCARD}/' ingress.yaml
+    
     # Push stage changes
     git commit -am "Added ingress hostname"
     git push origin stage
     # Update production ingress
     git checkout prod
-    sed -i "s/host: .*/host: reversewords-prod.${CLUSTER_WILDCARD}/" ingress.yaml
+    
+    Linux
+        sed -i "s/host: .*/host: reversewords-prod.${CLUSTER_WILDCARD}/" ingress.yaml
+        
+    Mac OS
+        sed -i '.bak' -e 's/host: .*/host: reversewords-prod.${CLUSTER_WILDCARD}/' ingress.yaml
+        
     # Push prod changes
     git commit -am "Added ingress hostname"
     git push origin prod
