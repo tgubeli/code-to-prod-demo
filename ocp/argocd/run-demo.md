@@ -33,10 +33,12 @@
     Linux
      sed -i "s/host: .*/host: <userXY>-reversewords-dev.${CLUSTER_WILDCARD}/" ingress.yaml
      sed -i "s/name: reverse-words-stage/name: <userXY>-reverse-words-stage/" namespace.yaml
+     sed -i "s/namespace: reverse-words-stage/namespace: <userXY>-reverse-words-stage/" kustomization.yaml
      
     Mac OS
      sed -i '.bak' -e 's/host: .*/host: <userXY>-reversewords-dev.${CLUSTER_WILDCARD}/' ingress.yaml
      sed -i '.bak' -e 's/name: reverse-words-stage/name: <userXY>-reverse-words-stage/' namespace.yaml
+     sed -i '.bak' -e 's/namespace: reverse-words-stage/namespace: <userXY>-reverse-words-stage/' kustomization.yaml
     
     # Push stage changes
     git commit -am "Added ingress hostname"
