@@ -64,12 +64,22 @@
     ~~~
 4. Add the quay credentials to the credentials file
 
+    Linux
     ~~~sh
     QUAY_USER=<your_user>
     read -s QUAY_PASSWORD
     sed -i "s/<username>/$QUAY_USER/" quay-credentials.yaml
     sed -i "s/<password>/$QUAY_PASSWORD/" quay-credentials.yaml
     ~~~
+    
+    Mac OS
+    ~~~sh
+    QUAY_USER=<your_user>
+    read -s QUAY_PASSWORD
+    sed -i '.bak' -e 's/<username>/$QUAY_USER/' quay-credentials.yaml
+    sed -i '.bak' -e 's/<password>/$QUAY_PASSWORD/' quay-credentials.yaml
+    ~~~
+    
 5. Create a Secret containing the credentials to access our Git repository
 
     > **NOTE**: You need to provide a token with push access to the cicd repository. Create one in: https://github.com/settings/tokens
@@ -112,12 +122,22 @@
     
     > **NOTE**: You need to use your forks address in the substitutions below
 
+    Linux
     ~~~sh
     sed -i "s|<reversewords_git_repo>|https://github.com/tgubeli/reverse-words|" build-pipeline.yaml
     sed -i "s|<reversewords_quay_repo>|quay.io/tgubeli/tekton-reversewords|" build-pipeline.yaml
     sed -i "s|<golang_package>|github.com/tgubeli/reverse-words|" build-pipeline.yaml
     sed -i "s|<imageBuilder_sourcerepo>|tgubeli/reverse-words-cicd|" build-pipeline.yaml
     ~~~
+    
+    Mac OS
+    ~~~sh
+    sed -i '.bak' -e 's|<reversewords_git_repo>|https://github.com/tgubeli/reverse-words|' build-pipeline.yaml
+    sed -i '.bak' -e 's|<reversewords_quay_repo>|quay.io/tgubeli/tekton-reversewords|' build-pipeline.yaml
+    sed -i '.bak' -e 's|<golang_package>|github.com/tgubeli/reverse-words|' build-pipeline.yaml
+    sed -i '.bak' -e 's|<imageBuilder_sourcerepo>|tgubeli/reverse-words-cicd|' build-pipeline.yaml
+    ~~~
+    
 13. Create the Build Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
 
     ~~~sh
@@ -136,13 +156,23 @@
 16. Edit some parameters from our Promoter Pipeline definition
 
     > **NOTE**: You need to use your forks address/quay account in the substitutions below
-
+    
+    Linux
     ~~~sh
     sed -i "s|<reversewords_cicd_git_repo>|https://github.com/tgubeli/reverse-words-cicd|" promote-to-prod-pipeline.yaml
     sed -i "s|<reversewords_quay_repo>|quay.io/tgubeli/tekton-reversewords|" promote-to-prod-pipeline.yaml
     sed -i "s|<imageBuilder_sourcerepo>|tgubeli/reverse-words-cicd|" promote-to-prod-pipeline.yaml
     sed -i "s|<stage_deployment_file_path>|./deployment.yaml|" promote-to-prod-pipeline.yaml
     ~~~
+    
+    Mac OS
+    ~~~sh
+    sed -i '.bak' -e 's|<reversewords_cicd_git_repo>|https://github.com/tgubeli/reverse-words-cicd|' promote-to-prod-pipeline.yaml
+    sed -i '.bak' -e 's|<reversewords_quay_repo>|quay.io/tgubeli/tekton-reversewords|' promote-to-prod-pipeline.yaml
+    sed -i '.bak' -e 's|<imageBuilder_sourcerepo>|tgubeli/reverse-words-cicd|' promote-to-prod-pipeline.yaml
+    sed -i '.bak' -e 's|<stage_deployment_file_path>|./deployment.yaml|' promote-to-prod-pipeline.yaml
+    ~~~
+    
 17. Create the Promoter Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
 
     ~~~sh
@@ -160,7 +190,7 @@
     ~~~
 20. Create the TriggerTemplate and Event Listener to run the Pipeline when new commits hit the main branch of our app repository
 
-    Lunix:
+    Linux:
     ~~~sh
     WEBHOOK_SECRET="v3r1s3cur3"
     oc -n reversewords-ci create secret generic webhook-secret --from-literal=secret=${WEBHOOK_SECRET}
