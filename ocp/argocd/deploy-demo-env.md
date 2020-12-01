@@ -8,9 +8,24 @@
     cd /var/tmp/code-to-prod-demo
     git clone https://github.com/<github_username>/reverse-words.git
     git clone https://github.com/<github_username>/reverse-words-cicd.git
+    git clone https://github.com/<github_username>/code-to-prod-demo.git
     ~~~
     
-2. Replace <userXY> , <github_username> and <quay_username> in this doc with your lab username, GitHub username and Quay username.
+2. Replace  <userXY> , <github_username> and <quay_username> in this doc with your lab username, GitHub username and Quay username.
+3. Change default argocd namespace for <userXY>-argocd
+   
+   Linux
+    ~~~sh
+        cd /var/tmp/code-to-prod-demo/code-to-prod-demo/ocp/argocd
+        sed -i "s/namespace: argocd/namespace: <userXY>-argocd/" install.yml
+    ~~~
+    
+    Mac OS
+    ~~~sh
+        cd /var/tmp/code-to-prod-demo/code-to-prod-demo/ocp/argocd
+        sed -i '.bak' -e 's/namespace: argocd/namespace: <userXY>-argocd/' install.yml
+    ~~~
+    
 
 
 # Deploy OpenShift and the required Operators
