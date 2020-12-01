@@ -35,7 +35,7 @@
 
     ~~~sh
     oc create namespace <userXY>-argocd
-    oc apply -n <userXY>-argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v1.6.1/manifests/install.yaml
+    oc apply -n <userXY>-argocd -f install.yaml
     ~~~
 3. Get the Argo CD admin user password
 
