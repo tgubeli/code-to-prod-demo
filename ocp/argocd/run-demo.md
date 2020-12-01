@@ -31,11 +31,11 @@
     # Update staging ingress  
     git checkout stage
     Linux
-     sed -i "s/host: .*/host: reversewords-dev.${CLUSTER_WILDCARD}/" ingress.yaml
+     sed -i "s/host: .*/host: <userXY>-reversewords-dev.${CLUSTER_WILDCARD}/" ingress.yaml
      sed -i "s/name: reverse-words-stage/name: <userXY>-reverse-words-stage/" namespace.yaml
      
     Mac OS
-     sed -i '.bak' -e 's/host: .*/host: reversewords-dev.${CLUSTER_WILDCARD}/' ingress.yaml
+     sed -i '.bak' -e 's/host: .*/host: <userXY>-reversewords-dev.${CLUSTER_WILDCARD}/' ingress.yaml
      sed -i '.bak' -e 's/name: reverse-words-stage/name: <userXY>-reverse-words-stage/' namespace.yaml
     
     # Push stage changes
@@ -45,11 +45,11 @@
     git checkout prod
     
     Linux
-        sed -i "s/host: .*/host: reversewords-prod.${CLUSTER_WILDCARD}/" ingress.yaml
+        sed -i "s/host: .*/host: <userXY>-reversewords-prod.${CLUSTER_WILDCARD}/" ingress.yaml
         sed -i "s/name: reverse-words-prod/name: <userXY>-reverse-words-prod/" namespace.yaml
         
     Mac OS
-        sed -i '.bak' -e 's/host: .*/host: reversewords-prod.${CLUSTER_WILDCARD}/' ingress.yaml
+        sed -i '.bak' -e 's/host: .*/host: <userXY>-reversewords-prod.${CLUSTER_WILDCARD}/' ingress.yaml
         sed -i '.bak' -e 's/name: reverse-words-prod/name: <userXY>-reverse-words-prod/' namespace.yaml
         
     # Push prod changes
