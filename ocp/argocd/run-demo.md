@@ -65,7 +65,7 @@
     --repo https://github.com/<github_username>/reverse-words-cicd.git \
     --path . \
     --dest-server https://kubernetes.default.svc \
-    --dest-namespace reverse-words-stage --revision stage \
+    --dest-namespace <userXY>-reverse-words-stage --revision stage \
     --self-heal --sync-policy automated
     ~~~
 4. Define Production application
@@ -77,7 +77,7 @@
     --repo https://github.com/<github_username>/reverse-words-cicd.git \
     --path . \
     --dest-server https://kubernetes.default.svc \
-    --dest-namespace reverse-words-production --revision prod \
+    --dest-namespace <userXY>-reverse-words-production --revision prod \
     --self-heal --sync-policy automated
     ~~~
 5. At this point the applications will be deployed automatically and Argo CD will poll the Git repository in order to detect configuration drifts every 3 minutes, when that happens, Argo CD will automatically apply the config stored in Git
