@@ -72,7 +72,7 @@
     ~~~
 5. Create a Secret containing the credentials to access our Git repository
 
-    > **NOTE**: You need to provide a token with push access to the cicd repository
+    > **NOTE**: You need to provide a token with push access to the cicd repository. Create one in: https://github.com/settings/tokens
     
     ~~~sh
     read -s GIT_AUTH_TOKEN
