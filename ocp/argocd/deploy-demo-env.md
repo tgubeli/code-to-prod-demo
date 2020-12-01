@@ -138,9 +138,9 @@
     > **NOTE**: You need to use your forks address/quay account in the substitutions below
 
     ~~~sh
-    sed -i "s|<reversewords_cicd_git_repo>|https://github.com/mvazquezc/reverse-words-cicd|" promote-to-prod-pipeline.yaml
-    sed -i "s|<reversewords_quay_repo>|quay.io/mavazque/tekton-reversewords|" promote-to-prod-pipeline.yaml
-    sed -i "s|<imageBuilder_sourcerepo>|mvazquezc/reverse-words-cicd|" promote-to-prod-pipeline.yaml
+    sed -i "s|<reversewords_cicd_git_repo>|https://github.com/tgubeli/reverse-words-cicd|" promote-to-prod-pipeline.yaml
+    sed -i "s|<reversewords_quay_repo>|quay.io/tgubeli/tekton-reversewords|" promote-to-prod-pipeline.yaml
+    sed -i "s|<imageBuilder_sourcerepo>|tgubeli/reverse-words-cicd|" promote-to-prod-pipeline.yaml
     sed -i "s|<stage_deployment_file_path>|./deployment.yaml|" promote-to-prod-pipeline.yaml
     ~~~
 17. Create the Promoter Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
