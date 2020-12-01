@@ -17,7 +17,7 @@
     > **NOTE**: Use your fork on the command below
 
     ~~~sh
-    argocd repo add https://github.com/tgubeli/reverse-words-cicd.git --name reversewords-cicd
+    argocd repo add https://github.com/<github_username>/reverse-words-cicd.git --name reversewords-cicd
     ~~~
 2. Edit the ingresses for our applications before creating them in Argo CD
 
@@ -47,7 +47,7 @@
 
     ~~~sh
     argocd app create --project default --name reverse-words-stage \
-    --repo https://github.com/tgubeli/reverse-words-cicd.git \
+    --repo https://github.com/<github_username>/reverse-words-cicd.git \
     --path . \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace reverse-words-stage --revision stage \
@@ -59,7 +59,7 @@
 
     ~~~sh
     argocd app create --project default --name reverse-words-production \
-    --repo https://github.com/tgubeli/reverse-words-cicd.git \
+    --repo https://github.com/<github_username>/reverse-words-cicd.git \
     --path . \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace reverse-words-production --revision prod \
@@ -78,10 +78,10 @@ We are going to use WebHooks in order to run Pipelines automatically when new co
 
     > **NOTE**: Every Git server has its own properties, but basically you want to provide the ingress url for our webhook and when the Git server should send the hook. E.g: push events, PR events, etc.
 
-    1. Go to your application repository on GitHub, eg: https://github.com/tgubeli/reverse-words
+    1. Go to your application repository on GitHub, eg: https://github.com/<github_username>/reverse-words
     2. Click on `Settings` -> `Webhooks`
     3. Create the following `Hook`
-       1. `Payload URL`: Output of command `oc -n reversewords-ci get route reversewords-webhook -o jsonpath='https://{.spec.host}'`
+       1. `Payload URL`: Output of command `oc -n <userXY>-reversewords-ci get route reversewords-webhook -o jsonpath='https://{.spec.host}'`
        2. `Content type`: application/json
        2. `Secret`: v3r1s3cur3
        3. `Events`: Check **Push Events**, leave others blank
@@ -92,10 +92,10 @@ We are going to use WebHooks in order to run Pipelines automatically when new co
 
     > **NOTE**: Argo CD comes with Webhooks enabled by default, that means that we just need to use the following url as Webhook endpoint, `https://<argocd-ingress-url>/api/webhook`
 
-    1. Go to your cicd repository on GitHub, eg: https://github.com/tgubeli/reverse-words-cicd
+    1. Go to your cicd repository on GitHub, eg: https://github.com/<github_username>/reverse-words-cicd
     2. Click on `Settings` -> `Webhooks`
     3. Create the following `Hook`
-       1. `Payload URL`: Output of command `oc -n argocd get route argocd -o jsonpath='https://{.spec.host}'/api/webhook` 
+       1. `Payload URL`: Output of command `oc -n <userXY>-argocd get route argocd -o jsonpath='https://{.spec.host}'/api/webhook` 
        2. `Content type`: application/json
        2. `Secret`: v3r1s3cur3
        3. `Events`: Check **Push Events**, leave others blank
@@ -105,7 +105,7 @@ We are going to use WebHooks in order to run Pipelines automatically when new co
     4. We need to configure our `Secret Token` on Argo CD
         ~~~sh
         WEBHOOK_SECRET="v3r1s3cur3"
-        oc -n argocd patch secret argocd-secret -p "{\"data\":{\"webhook.github.secret\":\"$(echo -n $WEBHOOK_SECRET | base64)\"}}" --type=merge
+        oc -n <userXY>-argocd patch secret argocd-secret -p "{\"data\":{\"webhook.github.secret\":\"$(echo -n $WEBHOOK_SECRET | base64)\"}}" --type=merge
         ~~~
 3. Now we should have a working Webhook, let's test it
 
@@ -128,13 +128,13 @@ We are going to use WebHooks in order to run Pipelines automatically when new co
         git commit -m "Release updated to $NEW_RELEASE"
         git push origin main
         ~~~
-    3. Connect to the OpenShift Developer Console and navigate to the `reversewords-ci` namespace
+    3. Connect to the OpenShift Developer Console and navigate to the `<userXY>-reversewords-ci` namespace
        1. You can see the PipelineRun on the console and follow the log 
     4. We can check the running images for our application pod and see that when the pipeline finishes a new deployment is triggered on ArgoCD
     5. When the Build pipeline finishes we can promote the new build to production
 
         ~~~sh
-        tkn -n reversewords-ci pipeline start reverse-words-promote-pipeline -r app-git=reverse-words-cicd-git -p pathToDeploymentFile=./deployment.yaml -p stageBranch=stage -p stageAppUrl=$(oc -n reverse-words-stage get route -l app=reversewords-stage -o jsonpath='{.items[*].spec.host}')
+        tkn -n <userXY>-reversewords-ci pipeline start reverse-words-promote-pipeline -r app-git=reverse-words-cicd-git -p pathToDeploymentFile=./deployment.yaml -p stageBranch=stage -p stageAppUrl=$(oc -n <userXY>-reverse-words-stage get route -l app=reversewords-stage -o jsonpath='{.items[*].spec.host}')
         ~~~
 
 ## Tekton Polling Operator
