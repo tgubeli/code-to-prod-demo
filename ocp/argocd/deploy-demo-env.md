@@ -5,8 +5,8 @@
 
     ~~~sh
     mkdir -p /var/tmp/code-to-prod-demo/
-    git clone git@github.com:<github-username>/reverse-words.git /var/tmp/code-to-prod-demo/reverse-words
-    git clone git@github.com:<github-username>/reverse-words-cicd.git /var/tmp/code-to-prod-demo/reverse-words-cicd
+    git clone https://github.com/<github_username>/reverse-words.git /var/tmp/code-to-prod-demo/reverse-words
+    git clone https://github.com/<github_username>/reverse-words-cicd.git /var/tmp/code-to-prod-demo/reverse-words-cicd
     ~~~
     
 2. Replace <userXY> , <github_username> and <quay_username> in this doc with your lab username, GitHub username and Quay username.
