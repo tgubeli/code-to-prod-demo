@@ -244,7 +244,7 @@
 2. Login into Argo CD from the Cli
   
     ~~~sh
-    ARGOCD_ROUTE=$(oc -n argocd get route argocd -o jsonpath='{.spec.host}')
+    ARGOCD_ROUTE=$(oc -n <userXY>-argocd get route <userXY>-argocd -o jsonpath='{.spec.host}')
     argocd login $ARGOCD_ROUTE --insecure --username admin --password $(cat /tmp/argocd-password)
     ~~~
 3. Update Argo CD password
