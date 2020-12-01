@@ -9,7 +9,7 @@
     git clone git@github.com:<github-username>/reverse-words-cicd.git /var/tmp/code-to-prod-demo/reverse-words-cicd
     ~~~
     
-2. Replace <userXY>, <github_username> and <quay_username> in this doc with your lab username, GitHub username and Quay username.
+2. Replace <userXY> , <github_username> and <quay_username> in this doc with your lab username, GitHub username and Quay username.
 
 
 # Deploy OpenShift and the required Operators
@@ -37,7 +37,7 @@
     ~~~sh
     oc -n <userXY>-argocd patch configmap argocd-cm -p '{"data":{"resource.customizations":"extensions/Ingress:\n  health.lua: |\n    hs = {}\n    hs.status = \"Healthy\"\n    return hs\n"}}'
     ~~~
-6.  Deploy OpenShift Pipelines Operator
+6.  (Skip this step) Deploy OpenShift Pipelines Operator
 
     ~~~sh
     cat <<EOF | oc -n openshift-operators create -f -
