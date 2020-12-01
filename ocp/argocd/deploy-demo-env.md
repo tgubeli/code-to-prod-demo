@@ -181,6 +181,7 @@
 18. Create the required Roles and RoleBindings for working with Webhooks
 
     ~~~sh
+    oc -n reversewords-ci create -f pipeline-sa.yaml
     oc -n reversewords-ci create -f webhook-roles.yaml
     ~~~
 19. Create the TriggerBinding for reading data received by a webhook and pass it to the Pipeline
