@@ -49,10 +49,12 @@
     Linux
         sed -i "s/host: .*/host: <userXY>-reversewords-prod.${CLUSTER_WILDCARD}/" ingress.yaml
         sed -i "s/name: reverse-words-prod/name: <userXY>-reverse-words-prod/" namespace.yaml
+        sed -i "s/namespace: reverse-words-prod/namespace: <userXY>-reverse-words-prod/" kustomization.yaml
         
     Mac OS
         sed -i '.bak' -e 's/host: .*/host: <userXY>-reversewords-prod.${CLUSTER_WILDCARD}/' ingress.yaml
         sed -i '.bak' -e 's/name: reverse-words-prod/name: <userXY>-reverse-words-prod/' namespace.yaml
+        sed -i '.bak' -e 's/namespace: reverse-words-prod/namespace: <userXY>-reverse-words-prod/' kustomization.yaml
         
     # Push prod changes
     git commit -am "Added ingress hostname"
