@@ -114,7 +114,7 @@ We are going to use WebHooks in order to run Pipelines automatically when new co
     1. Go to your cicd repository on GitHub, eg: https://github.com/<github_username>/reverse-words-cicd
     2. Click on `Settings` -> `Webhooks`
     3. Create the following `Hook`
-       1. `Payload URL`: Output of command `oc -n <userXY>-argocd get route argocd -o jsonpath='https://{.spec.host}'/api/webhook` 
+       1. `Payload URL`: Output of command `oc -n <userXY>-argocd get route <userXY>-argocd -o jsonpath='https://{.spec.host}'/api/webhook` 
        2. `Content type`: application/json
        2. `Secret`: v3r1s3cur3
        3. `Events`: Check **Push Events**, leave others blank
