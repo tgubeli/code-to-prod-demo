@@ -10,7 +10,7 @@
     cd /var/tmp/code-to-prod-demo
     git clone https://github.com/<github_username>/reverse-words.git
     git clone https://github.com/<github_username>/reverse-words-cicd.git
-    git clone https://github.com/<github_username>/code-to-prod-demo.git
+    git clone https://github.com/tgubeli/code-to-prod-demo.git
     ~~~
     
 2. Replace  <userXY> , <github_username> and <quay_username> in this doc with your lab username, GitHub username and Quay username.
@@ -74,27 +74,18 @@
 
 # Create the required Tekton manifests
 
-1. Clone the Git repositories (you will need the ssh keys already in place)
-
-    > **NOTE**: You need to fork these repositories and use your fork (so you have full-access)
-
-    ~~~sh
-    mkdir -p /var/tmp/code-to-prod-demo/
-    git clone git@github.com:<github-username>/reverse-words.git /var/tmp/code-to-prod-demo/reverse-words
-    git clone git@github.com:<github-username>/reverse-words-cicd.git /var/tmp/code-to-prod-demo/reverse-words-cicd
-    ~~~
-2. Go to the reverse-words-cicd repo and checkout the CI branch which contains our Tekton manifests
+1. Go to the reverse-words-cicd repo and checkout the CI branch which contains our Tekton manifests
 
     ~~~sh
     cd /var/tmp/code-to-prod-demo/reverse-words-cicd
     git checkout ci
     ~~~
-3. Create a namespace for storing the configuration for our reversewords app pipeline
+2. Create a namespace for storing the configuration for our reversewords app pipeline
 
     ~~~sh
     oc create namespace <userXY>-reversewords-ci
     ~~~
-4. Add the quay credentials to the credentials file
+3. Add the quay credentials to the credentials file
 
     Linux
     ~~~sh
@@ -112,7 +103,7 @@
     sed -i '.bak' -e 's/<password>/$QUAY_PASSWORD/' quay-credentials.yaml
     ~~~
     
-5. Create a Secret containing the credentials to access our Git repository
+4. Create a Secret containing the credentials to access our Git repository
 
     > **NOTE**: You need to provide a token with push access to the cicd repository. Create one in: https://github.com/settings/tokens
     
@@ -120,37 +111,37 @@
     read -s GIT_AUTH_TOKEN
     oc -n <userXY>-reversewords-ci create secret generic image-updater-secret --from-literal=token=${GIT_AUTH_TOKEN}
     ~~~
-6. Import credentials into the cluster
+5. Import credentials into the cluster
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f quay-credentials.yaml
     ~~~
-7. Create a ServiceAccount with access to the credentials created in the previous step
+6. Create a ServiceAccount with access to the credentials created in the previous step
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f pipeline-sa.yaml
     ~~~
-8. Create the Linter Task which will lint our code
+7. Create the Linter Task which will lint our code
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f lint-task.yaml
     ~~~
-9. Create the Tester Task which will run the tests in our app
+8. Create the Tester Task which will run the tests in our app
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f test-task.yaml
     ~~~
-10. Create the Builder Task which will build a container image for our app
+9. Create the Builder Task which will build a container image for our app
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f build-task.yaml
     ~~~
-11. Create the Image Update Task which will update the Deployment on a given branch after a successful image build
+10. Create the Image Update Task which will update the Deployment on a given branch after a successful image build
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f image-updater-task.yaml
     ~~~
-12. Edit some parameters from our Build Pipeline definition
+11. Edit some parameters from our Build Pipeline definition
     
     > **NOTE**: You need to use your forks address in the substitutions below
 
@@ -170,22 +161,22 @@
     sed -i '.bak' -e 's|<imageBuilder_sourcerepo>|<quay_username>/reverse-words-cicd|' build-pipeline.yaml
     ~~~
     
-13. Create the Build Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
+12. Create the Build Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f build-pipeline.yaml
     ~~~
-14. Create the curl task which will be used to query our apps on the promoter pipeline
+13. Create the curl task which will be used to query our apps on the promoter pipeline
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f curl-task.yaml
     ~~~
-15. Create the task that gets the stage release from the git cicd repository
+14. Create the task that gets the stage release from the git cicd repository
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f get-stage-release-task.yaml
     ~~~
-16. Edit some parameters from our Promoter Pipeline definition
+15. Edit some parameters from our Promoter Pipeline definition
 
     > **NOTE**: You need to use your forks address/quay account in the substitutions below
     
@@ -205,23 +196,23 @@
     sed -i '.bak' -e 's|<stage_deployment_file_path>|./deployment.yaml|' promote-to-prod-pipeline.yaml
     ~~~
     
-17. Create the Promoter Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
+16. Create the Promoter Pipeline definition which will be used to execute the previous tasks in an specific order with specific parameters
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f promote-to-prod-pipeline.yaml
     ~~~
-18. Create the required Roles and RoleBindings for working with Webhooks
+17. Create the required Roles and RoleBindings for working with Webhooks
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f pipeline-sa.yaml
     oc -n <userXY>-reversewords-ci create -f webhook-roles.yaml
     ~~~
-19. Create the TriggerBinding for reading data received by a webhook and pass it to the Pipeline
+18. Create the TriggerBinding for reading data received by a webhook and pass it to the Pipeline
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create -f github-triggerbinding.yaml
     ~~~
-20. Create the TriggerTemplate and Event Listener to run the Pipeline when new commits hit the main branch of our app repository
+19. Create the TriggerTemplate and Event Listener to run the Pipeline when new commits hit the main branch of our app repository
 
     Linux:
     ~~~sh
@@ -243,7 +234,7 @@
     oc -n <userXY>-reversewords-ci create -f webhook.yaml
     ~~~
     
-21. We need to provide an ingress point for our EventListener, we want it to be TLS, we will create a edge route
+20. We need to provide an ingress point for our EventListener, we want it to be TLS, we will create a edge route
 
     ~~~sh
     oc -n <userXY>-reversewords-ci create route edge reversewords-webhook --service=el-reversewords-webhook --port=8080 --insecure-policy=Redirect
