@@ -2,6 +2,8 @@
 1. Clone the Git repositories (you will need the ssh keys already in place)
 
     > **NOTE**: You need to fork these repositories and use your fork (so you have full-access)
+    > https://github.com/mvazquezc/reverse-words
+    > https://github.com/mvazquezc/reverse-words-cicd
 
     ~~~sh
     mkdir -p /var/tmp/code-to-prod-demo/
