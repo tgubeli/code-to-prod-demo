@@ -219,7 +219,6 @@
     WEBHOOK_SECRET="v3r1s3cur3"
     oc -n <userXY>-reversewords-ci create secret generic webhook-secret --from-literal=secret=${WEBHOOK_SECRET}
     sed -i "s/<git-triggerbinding>/github-triggerbinding/" webhook.yaml
-    sed -i "/ref: github-triggerbinding/d" webhook.yaml
     sed -i "s/- name: pipeline-binding/- name: github-triggerbinding/" webhook.yaml
     oc -n <userXY>-reversewords-ci create -f webhook.yaml
     ~~~
@@ -229,7 +228,6 @@
     WEBHOOK_SECRET="v3r1s3cur3"
     oc -n <userXY>-reversewords-ci create secret generic webhook-secret --from-literal=secret=${WEBHOOK_SECRET}
     sed -i '.bak' -e 's/<git-triggerbinding>/github-triggerbinding/' webhook.yaml
-    sed -i '.bak' -e '/ref: github-triggerbinding/d' webhook.yaml
     sed -i '.bak' -e 's/- name: pipeline-binding/- name: github-triggerbinding/' webhook.yaml
     oc -n <userXY>-reversewords-ci create -f webhook.yaml
     ~~~
